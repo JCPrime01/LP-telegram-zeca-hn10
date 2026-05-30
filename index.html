@@ -1,275 +1,542 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bilhete Liberado - Zeca</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Super Odd — Final da Champions</title>
+<script>
+(function(){
+  var B="https://smartico-dashboard-production.up.railway.app/track/f30daf06-f78e-41b3-bb3e-0e34d84773e1";
+  var R="https://smartico-dashboard-production.up.railway.app/track/f30daf06-f78e-41b3-bb3e-0e34d84773e1/redirect";
+  var k="_tid";
+  var sid=sessionStorage.getItem(k)||(Math.random().toString(36).slice(2)+Date.now().toString(36));
+  sessionStorage.setItem(k,sid);
 
-    <!-- ========================================
-         CONFIGURAÇÕES — ALTERE AQUI
-    ========================================= -->
-    <script>
-        var PIXEL_ID   = '1740249916660495';
-        var API_URL    = 'https://sua-api.up.railway.app/api/lead';
-        var BOTAO_LINK = 'https://t.me/+68RS1Skpm91lZWFh';
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','1740249916660495');
+  fbq('track','PageView');
+  var sp=new URLSearchParams(location.search);
+  var utms=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
+  var utmParams={};
+  utms.forEach(function(u){ var v=sp.get(u); if(v) utmParams[u]=v; });
+  if(Object.keys(utmParams).length) sessionStorage.setItem("_utms",JSON.stringify(utmParams));
 
-        var TRACKPANEL_BACKEND   = 'https://smartico-dashboard-production.up.railway.app';
-        var TRACKPANEL_WORKSPACE = 'SEU_WORKSPACE_ID';
-    </script>
-    <!-- ========================================
-         FIM DAS CONFIGURAÇÕES
-    ========================================= -->
+  function getUtms(){ try{ return JSON.parse(sessionStorage.getItem("_utms")||"{}"); }catch(e){ return {}; } }
 
-    <!-- Meta Pixel -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', PIXEL_ID);
-        fbq('track', 'PageView');
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=SEU_PIXEL_ID&ev=PageView&noscript=1">
-    </noscript>
+  function track(type,meta){
+    fetch(B,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({event_type:type,session_id:sid,url:location.href,metadata:Object.assign({},getUtms(),meta||{})}),
+      keepalive:true
+    }).catch(function(){});
+  }
 
-    <!-- TrackPanel Script -->
-    <script>
-        (function(){
-          var B=TRACKPANEL_BACKEND+"/track/"+TRACKPANEL_WORKSPACE;
-          var k="_tid";
-          var sid=sessionStorage.getItem(k)||(Math.random().toString(36).slice(2)+Date.now().toString(36));
-          sessionStorage.setItem(k,sid);
+  track("pageview");
 
-          var sp=new URLSearchParams(location.search);
-          var utms=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
-          var utmParams={};
-          utms.forEach(function(u){ var v=sp.get(u); if(v) utmParams[u]=v; });
-          if(Object.keys(utmParams).length) sessionStorage.setItem("_utms",JSON.stringify(utmParams));
+  function wireButtons(){
+    document.querySelectorAll("[data-trackpanel]").forEach(function(el){
+      var q=new URLSearchParams(getUtms()).toString();
+      el.href=R+(q?"?"+q:"");
+      el.addEventListener("click",function(){
+        if(typeof fbq!=="undefined") fbq('trackCustom','TrackOut');
+      },true);
+    });
+  }
+  wireButtons();
 
-          function track(type,meta){
-            fetch(B,{method:"POST",headers:{"Content-Type":"application/json"},
-              body:JSON.stringify({event_type:type,session_id:sid,url:location.href,metadata:meta||{}}),
-              keepalive:true}).catch(function(){});
-          }
-          track("pageview");
-          window._trackpanel=track;
-        })();
-    </script>
+  document.addEventListener("click",function(e){
+    var el=e.target;
+    while(el&&el!==document.body){
+      if(el.dataset&&el.dataset.track){
+        track("click",{label:el.dataset.track,text:el.innerText||""});
+        return;
+      }
+      if(el.tagName==="BUTTON"||el.tagName==="A"){
+        track("click",{tag:el.tagName,text:el.innerText||"",href:el.href||""});
+        return;
+      }
+      el=el.parentElement;
+    }
+  },true);
+})();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+<style>
 
-    <!-- Disparo no botão -->
-    <script>
-        async function dispararLead() {
-            const eventId = 'CompleteRegistration' + Date.now();
+*{ margin:0; padding:0; box-sizing:border-box; }
 
-            fbq('track', 'CompleteRegistration', {}, { eventID: eventId });
+html, body {
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100%;
+}
 
-            try {
-                await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || null,
-                        fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || null,
-                        userAgent: navigator.userAgent,
-                        pageUrl: window.location.href,
-                        eventId: eventId
-                    })
-                });
-            } catch(e) {}
+body {
+  background: #000;
+}
 
-            if(window._trackpanel) window._trackpanel("click", {label:"cta-button"});
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+}
 
-            var utms = {};
-            try { utms = JSON.parse(sessionStorage.getItem("_utms") || "{}"); } catch(e) {}
-            var q = new URLSearchParams(utms);
-            q.set("fallback", BOTAO_LINK);
-            window.location.href = TRACKPANEL_BACKEND + "/track/" + TRACKPANEL_WORKSPACE + "/redirect?" + q.toString();
-        }
-    </script>
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-height: 100dvh;
+}
 
-    <style>
-        :root {
-            --primary-green: #25d366;
-            --text-white: #ffffff;
-            --border-green: #3ae676;
-        }
+.badge {
+  background: linear-gradient(90deg, #0077bb, #2AABEE, #0077bb);
+  border-radius: 999px;
+  padding: 6px 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+.hero {
+  text-align: center;
+  line-height: 1;
+}
 
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #000;
-            font-family: 'Sora', sans-serif;
-            color: var(--text-white);
-            overflow-x: hidden;
-        }
+.hero-odd {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+}
 
-        .container {
-            max-width: 380px;
-            width: 90%;
-            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://grupogratuito.website/wp-content/uploads/2025/04/rugby-sport-environment-filed.png");
-            background-size: cover;
-            background-position: center;
-            border: 1px solid rgba(58, 230, 118, 0.4);
-            border-radius: 25px;
-            padding: 30px 20px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 50px rgba(37, 211, 102, 0.05);
-            margin: 20px auto;
-            overflow: hidden;
-        }
+.hero-odd-word {
+  font-size: 52px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 30px rgba(255,255,255,.2);
+  font-style: italic;
+}
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
-            z-index: 2;
-        }
+.hero-odd-num {
+  font-size: 90px;
+  font-weight: 900;
+  color: #2AABEE;
+  text-shadow:
+    0 0 30px rgba(42,171,238,.6),
+    0 0 80px rgba(42,171,238,.3);
+  font-style: italic;
+  line-height: 1;
+}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+.subhead {
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.35;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
 
-        .profile-img-container {
-            position: relative;
-            margin-bottom: 20px;
-            display: inline-block;
-            z-index: 1;
-        }
+.subhead .hl-green { color: #60d5ff; }
+.subhead .hl-gold  { color: #2AABEE; }
 
-        .profile-img-container::after {
-            content: '';
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(37, 211, 102, 0.5) 0%, transparent 70%);
-            z-index: -1;
-        }
+.match-card {
+  width: 100%;
+  background: rgba(0,0,0,.55);
+  border: 1.5px solid rgba(42,171,238,.35);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 0 30px rgba(42,171,238,.1),
+    0 0 60px rgba(42,171,238,.05),
+    inset 0 0 40px rgba(0,0,0,.3);
+}
 
-        .profile-img {
-            width: 240px;
-            height: auto;
-            animation: float 4s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
-        }
+.card-header {
+  background: rgba(255,255,255,.05);
+  border-bottom: 1px solid rgba(42,171,238,.2);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-        h2 {
-            font-size: 26px;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-        }
+.card-header .ucl-icon { font-size: 16px; }
 
-        h6 {
-            font-size: 15px;
-            font-weight: 400;
-            margin-bottom: 30px;
-            color: #f0f0f0;
-            position: relative;
-            z-index: 1;
-        }
+.teams-row {
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
 
-        h6 span {
-            color: var(--primary-green);
-            font-weight: 600;
-        }
+.team-logo {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
 
-        .btn-whatsapp {
-            display: inline-block;
-            background-color: #3ae676;
-            color: #000;
-            border: none;
-            cursor: pointer;
-            padding: 15px 0;
-            border-radius: 10px;
-            font-family: 'Sora', sans-serif;
-            font-weight: 800;
-            font-size: 18px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
-            width: 100%;
-            max-width: 280px;
-            position: relative;
-            z-index: 1;
-        }
+.team-logo img { width: 46px; }
 
-        .btn-whatsapp:hover {
-            transform: scale(1.03);
-            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5);
-        }
+.vs-text {
+  font-size: 22px;
+  font-weight: 900;
+  color: rgba(255,255,255,.7);
+  letter-spacing: -1px;
+}
 
-        .responsibility-img {
-            width: 200px;
-            margin-top: 30px;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
+.comp-row {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+}
 
-        footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-            width: 100%;
-        }
+.day-pill {
+  background: #0077bb;
+  border-radius: 6px;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1px;
+}
 
-        @media (max-width: 480px) {
-            .container { padding: 30px 15px; }
-            h2 { font-size: 22px; }
-            .profile-img { width: 200px; }
-        }
-    </style>
+.market-row {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.market-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #2AABEE;
+  margin-bottom: 4px;
+}
+
+.market-name {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.odds-row {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.odd-from {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.odd-from-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,.4);
+  text-transform: uppercase;
+}
+
+.odd-from-val {
+  font-size: 28px;
+  font-weight: 900;
+  color: rgba(255,80,80,.7);
+  position: relative;
+}
+
+.odd-from-val::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: -4px; right: -4px;
+  height: 2.5px;
+  background: rgba(255,80,80,.8);
+  transform: rotate(-8deg);
+}
+
+.odd-arrow {
+  font-size: 28px;
+  color: #2AABEE;
+  font-weight: 900;
+  animation: arrow-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes arrow-pulse {
+  50% { transform: translateX(4px); opacity: .6; }
+}
+
+.odd-to {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.odd-to-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,.4);
+  text-transform: uppercase;
+}
+
+.odd-to-val {
+  font-size: 46px;
+  font-weight: 900;
+  color: #2AABEE;
+  text-shadow: 0 0 20px rgba(42,171,238,.5);
+  line-height: 1;
+}
+
+.scarcity-box {
+  width: 100%;
+  background: rgba(42,171,238,.07);
+  border: 1px solid rgba(42,171,238,.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.scarcity-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #2AABEE;
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+
+.scarcity-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,.55);
+  font-weight: 600;
+}
+
+.cta-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.cta {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 20px 24px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0077bb, #2AABEE);
+  box-shadow:
+    0 0 35px rgba(42,171,238,.4),
+    0 0 80px rgba(42,171,238,.15),
+    0 16px 32px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .2s, box-shadow .2s;
+  animation: cta-pulse 2.2s ease-in-out infinite;
+  text-decoration: none;
+}
+
+@keyframes cta-pulse {
+  50% {
+    box-shadow:
+      0 0 55px rgba(42,171,238,.6),
+      0 0 110px rgba(42,171,238,.25),
+      0 16px 32px rgba(0,0,0,.4),
+      inset 0 1px 0 rgba(255,255,255,.2);
+  }
+}
+
+.cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  animation: none;
+}
+
+.cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%);
+  transform: translateX(-120%) skewX(-15deg);
+  animation: shine 3s infinite 1s;
+}
+@keyframes shine { to { transform: translateX(220%) skewX(-15deg); } }
+
+.cta-icon { font-size: 22px; }
+.cta-text { line-height: 1; }
+.cta-arrow { font-size: 18px; opacity: .8; }
+
+.cta-trust {
+  font-size: 11px;
+  color: rgba(255,255,255,.3);
+  font-weight: 500;
+}
+.cta-trust b { color: rgba(255,255,255,.5); }
+
+.disclaimer {
+  text-align: center;
+  font-size: 10px;
+  color: rgba(255,255,255,.2);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.disclaimer strong { color: rgba(255,255,255,.35); }
+
+@media (max-width: 430px) {
+  .page          { padding: 16px 16px 20px; gap: 12px; }
+  .badge         { font-size: 10px; letter-spacing: 1px; padding: 5px 14px; }
+  .hero-odd-word { font-size: 38px; }
+  .hero-odd-num  { font-size: 66px; }
+  .subhead       { font-size: 15px; }
+  .teams-row     { padding: 10px 16px; }
+  .team-logo     { width: 52px; height: 52px; }
+  .team-logo img { width: 38px; }
+  .comp-row      { padding: 8px 16px; }
+  .market-row    { padding: 9px 16px; }
+  .odds-row      { padding: 10px 16px; }
+  .odd-to-val    { font-size: 38px; }
+  .scarcity-box  { padding: 9px 14px; }
+  .scarcity-title { font-size: 12px; }
+  .scarcity-sub  { font-size: 11px; }
+  .cta           { font-size: 15px; padding: 15px 16px; }
+}
+
+@media (max-width: 320px) {
+  .hero-odd-word { font-size: 32px; }
+  .hero-odd-num  { font-size: 56px; }
+  .subhead       { font-size: 13px; }
+}
+
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="profile-img-container">
-            <img src="https://grupogratuito.website/wp-content/uploads/2026/03/3-1024x1024.png" alt="Zeca" class="profile-img">
-        </div>
+<main class="page">
 
-        <h2>Bilhete Liberado<br>no Telegram</h2>
+  <div class="badge">SUPER ODD &nbsp;·&nbsp; FINAL DA CHAMPIONS</div>
 
-        <h6>Clique no botão e fale comigo no <span>Telegram !</span> 👇🏻</h6>
+  <div class="hero">
+    <div class="hero-odd">
+      <span class="hero-odd-word">ODD</span>
+      <span class="hero-odd-num">100</span>
+    </div>
+  </div>
 
-        <button class="btn-whatsapp" onclick="dispararLead()">PEGAR BILHETE</button>
+  <p class="subhead">
+    Para <span class="hl-green">ambas equipes</span> marcarem<br>
+    em <span class="hl-gold">PSG x Arsenal</span>
+  </p>
 
-        <img src="https://grupogratuito.website/wp-content/uploads/2025/01/JOGUE-COM-RESPONSABILIDADE-300x42-1.webp" alt="Jogue com responsabilidade" class="responsibility-img">
+  <div class="match-card">
+
+    <div class="card-header">
+      <span class="ucl-icon">⚽</span>
+      PSG vs Arsenal
     </div>
 
-    <footer>
-        Copyright © 2025 – Todos os direitos reservados
-    </footer>
+    <div class="teams-row">
+      <div class="team-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg" alt="PSG">
+      </div>
+      <div class="vs-text">VS</div>
+      <div class="team-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" alt="Arsenal">
+      </div>
+    </div>
+
+    <div class="comp-row">
+      Final da Champions
+      <span class="day-pill">SÁBADO</span>
+    </div>
+
+    <div class="market-row">
+      <div class="market-label">Mercado</div>
+      <div class="market-name">Ambas equipes marcam</div>
+    </div>
+
+    <div class="odds-row">
+      <div class="odd-from">
+        <div class="odd-from-label">De</div>
+        <div class="odd-from-val">1.78</div>
+      </div>
+      <div class="odd-arrow">»</div>
+      <div class="odd-to">
+        <div class="odd-to-label">Para</div>
+        <div class="odd-to-val">100.00</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="scarcity-box">
+    <div class="scarcity-title">⏰ OFERTA POR TEMPO LIMITADO!</div>
+    <div class="scarcity-sub">Garanta agora sua Super Odd antes que esgote.</div>
+  </div>
+
+  <div class="cta-wrap">
+    <a href="https://t.me/+68RS1Skpm91lZWFh" class="cta" data-trackpanel>
+      <span class="cta-icon">✈️</span>
+      <span class="cta-text">RECEBER NO TELEGRAM</span>
+      <span class="cta-arrow">›</span>
+    </a>
+    <p class="cta-trust">Acesso gratuito &nbsp;·&nbsp; <b>Sem cadastro</b></p>
+  </div>
+
+  <div class="disclaimer">
+    <strong>+18 · Jogue com responsabilidade.</strong><br>
+    Apostas envolvem risco de perda. Jogar pode causar dependência.
+  </div>
+
+</main>
 
 </body>
 </html>
